@@ -148,8 +148,6 @@ func task__() {
 				fmt.Print("[SYSTEM]: Program selesai. Selamat Beristirahat, Bos.")
 			}
 			return
-		default:
-			// 
 		}
 
 		time.Sleep(2 * time.Second)
