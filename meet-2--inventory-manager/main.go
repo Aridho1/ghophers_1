@@ -52,7 +52,7 @@ func getListProduct(title string) bool {
 	productsLen := len(products)
 
 	if productsLen == 0 {
-		fmt.Printf("[SYSTEM]: Kita belum memiliki produk apapun di gudang\n!")
+		fmt.Printf("[SYSTEM]: Kita belum memiliki produk apapun di gudang!\n")
 		return false
 	}
 
@@ -111,10 +111,13 @@ func task__() {
 
 			fmt.Printf("\n[SYSTEM]: Barang berhasil ditambahkan ke gudang.\n")
 		case 2:
-			getListProduct("Daftar Stock Gudang")
-			fmt.Printf("\nTotal Jenis Barang: %d\n", len(products))
+			if getListProduct("Daftar Stock Gudang") {
+				fmt.Printf("\nTotal Jenis Barang: %d\n", len(products))
+			}
 		case 3:
-			getListProduct("Daftar Produk")
+			if !getListProduct("Daftar Produk") {
+				continue
+			}
 			fmt.Printf("\nMasukan ID Barang yang mau dibeli: ")
 			fmt.Scanln(&inputID)
 
