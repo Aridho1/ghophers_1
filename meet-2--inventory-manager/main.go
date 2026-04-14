@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"slices"
-	"strconv"
 )
 
 type Product struct {
@@ -38,7 +37,9 @@ func title() {
 // }
 
 func task__() {
-	var inputMenu, inputItemName, inputPrice, inputStock, inputID, inputCount, inputMoney string
+	var inputItemName string
+	var inputMenu, inputPrice, inputStock, inputID, inputCount, inputMoney int
+
 	menuLen := len(menus)
 	
 	for {
@@ -48,7 +49,7 @@ func task__() {
 		fmt.Scanln(&inputMenu)
 
 		switch inputMenu {
-		case "1":
+		case 1:
 			fmt.Printf("Masukan Nama Barang: ")
 			fmt.Scanln(&inputItemName)
 			
@@ -57,16 +58,6 @@ func task__() {
 			
 			fmt.Printf("Masukan Stock Barang: ")
 			fmt.Scanln(&inputStock)
-
-			price, err := strconv.Atoi(inputPrice)
-			if err != nil {
-				price = 0
-			}
-
-			stock, err := strconv.Atoi(inputStock)
-			if err != nil {
-				stock = 0
-			}
 			
 			// product := Product{
 			// 	ID: 	len(products) + 1,
@@ -78,12 +69,12 @@ func task__() {
 			products = append(products, Product{
 				ID: 	len(products) + 1,
 				Name: 	inputItemName,
-				Price: 	price,
-				Stock: 	stock,
+				Price: 	inputPrice,
+				Stock: 	inputStock,
 			})
 
 			fmt.Printf("\n[SYSTEM]: Barang berhasil ditambahkan ke gudang.")
-		case "2":
+		case 2:
 			fmt.Print("\n====== Daftar Stock Gudang ======\n")
 
 			for _, product := range products {
@@ -91,18 +82,12 @@ func task__() {
 			}
 
 			fmt.Printf("=====================\nTotal Jenis Barang: %d", len(products) + 1)
-		case "3":
+		case 3:
 			fmt.Printf("Masukan ID Barang yang mau dibeli: ")
 			fmt.Scanln(&inputID)
 
-			selectedID, err := strconv.Atoi(inputID)
-			if err != nil {
-				fmt.Print("[SYSTEM]: ID barang harus berupa angka.")
-				continue
-			}
-
 			productIndex := slices.IndexFunc(products, func(p Product) bool {
-				return p.ID == selectedID
+				return p.ID == inputID
 			})
 			if productIndex == -1 {
 				fmt.Print("[SYSTEM]: Barang dengan ID tersebut tidak ditemukan.")
@@ -115,7 +100,7 @@ func task__() {
 			fmt.Printf("Masukan uang anda: ")
 			fmt.Scanln(&inputMoney)
 
-		case "4":
+		case 4:
 			fmt.Print("[SYSTEM]: Program selesai. Selamat Beristirahat, Bos.")
 			return
 		default:
