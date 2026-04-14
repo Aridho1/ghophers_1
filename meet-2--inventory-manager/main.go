@@ -48,10 +48,15 @@ func title(loopCount int) {
 // 	}
 // }
 
-func getListProduct(title string) {
-    fmt.Printf("\n\n====== %s ======\n", title)
-
+func getListProduct(title string) bool {
 	productsLen := len(products)
+
+	if productsLen == 0 {
+		fmt.Printf("[SYSTEM]: Kita belum memiliki produk apapun di gudang\n!")
+		return false
+	}
+
+    fmt.Printf("\n\n====== %s ======\n", title)
 	
 	for i, product := range products {
 
@@ -65,6 +70,7 @@ func getListProduct(title string) {
 	}
 	
 	// fmt.Print("\n")
+	return true
 }
 
 func task__() {
@@ -75,6 +81,10 @@ func task__() {
 	
 	for loopCount := 0; loopCount >= 0; loopCount++ {
 		title(loopCount)
+
+		if loopCount != 0 {
+			time.Sleep(2 * time.Second)	
+		}
 
 		fmt.Printf("\nPilih Menu [1-%d]: ", menuLen)
 		fmt.Scanln(&inputMenu)
@@ -149,8 +159,6 @@ func task__() {
 			}
 			return
 		}
-
-		time.Sleep(2 * time.Second)
 	}
 }
 
