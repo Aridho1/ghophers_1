@@ -16,12 +16,19 @@ type Product struct {
 	Stock int
 }
 
-const AppName string = "====== [ Toko Kelontong | INVENTORY MANAGER ] ======"
-const line = "-----------------------"
-var reader = bufio.NewReader(os.Stdin)
-var menusWhenEmptyProducts = []string{"Tambah Barang Ke Gudang", "Keluar"}
-var menus = []string{menusWhenEmptyProducts[0], "Lihat Semua Stock Barang", "Beli Barang", menusWhenEmptyProducts[1]}
-var products = []Product{}
+const (
+	AppName = "====== [ Toko Kelontong | INVENTORY MANAGER ] ======"
+	Line = "-----------------------"
+	WaitSebentar = 500
+	WaitAgakLama = 2
+)
+
+var (
+	reader = bufio.NewReader(os.Stdin)
+	menusWhenEmptyProducts = []string{"Tambah Barang Ke Gudang", "Keluar"}
+	menus = []string{menusWhenEmptyProducts[0], "Lihat Semua Stock Barang", "Beli Barang", menusWhenEmptyProducts[1]}
+	products = []Product{}
+)
 
 func title(loopCount int) {
 
@@ -99,6 +106,9 @@ func buyProduct() {
 	if !getListProduct("Daftar Produk") {
 		return
 	}
+
+	time.Sleep(WaitSebentar * time.Millisecond)
+
 	fmt.Printf("\nMasukan ID Barang yang mau dibeli: ")
 	fmt.Scanln(&inputID)
 
@@ -106,6 +116,7 @@ func buyProduct() {
 		return p.ID == inputID
 	})
 	if productIndex == -1 {
+		time.Sleep(WaitSebentar * time.Millisecond)
 		fmt.Print("[SYSTEM]: Barang dengan ID tersebut tidak ditemukan.\n")
 		return
 	}
@@ -117,21 +128,27 @@ func buyProduct() {
 
 	price := inputCount * product.Price
 	
+	time.Sleep(WaitSebentar * time.Millisecond)
 	fmt.Printf("[SYSTEM]: Total Harga: Rp %d\n", price)
+	time.Sleep(WaitSebentar * time.Millisecond)
 	fmt.Printf("Masukan uang anda: ")
 	fmt.Scanln(&inputMoney)
 
 	changeMoney := inputMoney - price
 
 	if changeMoney < 0 {
+		time.Sleep(WaitSebentar * time.Millisecond)
 		fmt.Printf("[SYSTEM]: Uang anda kurang %d !!!\n", changeMoney * -1)
 		return
 	}
 
 	product.Stock -= inputCount
 
+	time.Sleep(WaitSebentar * time.Millisecond)
 	fmt.Printf("\n[SYSTEM]: Transaksi berhasil!\n")
+	time.Sleep(WaitSebentar * time.Millisecond)
 	fmt.Printf("[SYSTEM]: Kembalian: %d\n", changeMoney)
+	time.Sleep(WaitSebentar * time.Millisecond)
 	fmt.Printf("[SYSTEM]: Stok %v sekarang: %d pcs\n", product.Name, product.Stock)
 	// fmt.Printf("%#+ lalu %#v\n\n", product, products)
 }
@@ -152,13 +169,15 @@ func task__() {
 		}
 
 		if loopCount != 0 {
-			time.Sleep(2 * time.Second)	
+			time.Sleep(WaitAgakLama * time.Second)	
 		}
 
 		title(loopCount)
 
 		fmt.Printf("\nPilih Menu [1-%d]: ", displayMenuLen)
 		fmt.Scanln(&inputMenu)
+
+		time.Sleep(WaitSebentar * time.Millisecond)
 
 		if inputMenu == 1 {
 			addProduct()
@@ -174,7 +193,12 @@ func task__() {
 			} else {
 				fmt.Print("[SYSTEM]: Program selesai. Selamat Beristirahat, Bos.")
 			}
+
+			time.Sleep(WaitSebentar * time.Millisecond)
 			return
+		} else {
+			time.Sleep(WaitSebentar * time.Millisecond)
+			fmt.Printf("\n[SYSTEM]: Menu tidak tersedia. Harap input dengan benar!\n")
 		}
 	}
 }
