@@ -60,19 +60,24 @@ func getListProduct(title string) bool {
 	}
 
     fmt.Printf("\n\n====== %s ======\n", title)
+	time.Sleep(WaitSebentar * time.Millisecond)
 	
 	for i, product := range products {
-
-		barrier := "---------------------------------"
+		barrier := "---------------------------------\n" 
+		
 		if i + 1 == productsLen {
-			barrier = "================================="
+			barrier = ""
 		}
-
-		fmt.Printf("ID: %v	| Nama	: %v	\n	| Harga	: %v	\n	| Stok	: %v\n%v\n", product.ID, product.Name, product.Price, product.Stock, barrier)
+		
+		fmt.Printf("ID: %v	| Nama	: %v	\n	| Harga	: %v	\n	| Stok	: %v\n%v", product.ID, product.Name, product.Price, product.Stock, barrier)
 		// fmt.Printf("ID: %v | Nama: %v=|=Harga: Rp %v | Stok: %v\n", product.ID, product.Name, product.Price, product.Stock)
+
+		time.Sleep(WaitSebentar * 2 / 3 * time.Millisecond)
 	}
 	
-	// fmt.Print("\n")
+	fmt.Print("=================================")
+	time.Sleep(WaitSebentar * time.Millisecond)
+
 	return true
 }
 
