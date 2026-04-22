@@ -18,7 +18,7 @@ type Product struct {
 
 const (
 	AppName = "====== [ Toko Kelontong | INVENTORY MANAGER ] ======"
-	Line = "-----------------------"
+	// Line = "-----------------------"
 	WaitSebentar = 500
 	WaitAgakLama = 2
 )
