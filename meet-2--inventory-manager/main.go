@@ -69,9 +69,76 @@ func getListProduct(title string) bool {
 	return true
 }
 
+func addProduct() {
+	var inputPrice, inputStock int
+	
+	fmt.Printf("Masukan Nama Barang: ")
+	// fmt.Scanln(&inputItemName)
+	inputItemName, _ := reader.ReadString('\n')
+	inputItemName = strings.TrimSpace(inputItemName)
+		
+	fmt.Printf("Masukan Harga Barang: ")
+	fmt.Scanln(&inputPrice)
+	
+	fmt.Printf("Masukan Stock Barang: ")
+	fmt.Scanln(&inputStock)
+
+	products = append(products, Product{
+		ID: 	len(products) + 1,
+		Name: 	inputItemName,
+		Price: 	inputPrice,
+		Stock: 	inputStock,
+	})
+
+	fmt.Printf("\n[SYSTEM]: Barang berhasil ditambahkan ke gudang.\n")
+}
+
+func buyProduct() {
+	var inputID, inputCount, inputMoney int
+
+	if !getListProduct("Daftar Produk") {
+		return
+	}
+	fmt.Printf("\nMasukan ID Barang yang mau dibeli: ")
+	fmt.Scanln(&inputID)
+
+	productIndex := slices.IndexFunc(products, func(p Product) bool {
+		return p.ID == inputID
+	})
+	if productIndex == -1 {
+		fmt.Print("[SYSTEM]: Barang dengan ID tersebut tidak ditemukan.\n")
+		return
+	}
+
+	product := &products[productIndex]
+	
+	fmt.Printf("Masukan jumlah Barang yang mau dibeli: ")
+	fmt.Scanln(&inputCount)
+
+	price := inputCount * product.Price
+	
+	fmt.Printf("[SYSTEM]: Total Harga: Rp %d\n", price)
+	fmt.Printf("Masukan uang anda: ")
+	fmt.Scanln(&inputMoney)
+
+	changeMoney := inputMoney - price
+
+	if changeMoney < 0 {
+		fmt.Printf("[SYSTEM]: Uang anda kurang %d !!!\n", changeMoney * -1)
+		return
+	}
+
+	product.Stock -= inputCount
+
+	fmt.Printf("\n[SYSTEM]: Transaksi berhasil!\n")
+	fmt.Printf("[SYSTEM]: Kembalian: %d\n", changeMoney)
+	fmt.Printf("[SYSTEM]: Stok %v sekarang: %d pcs\n", product.Name, product.Stock)
+	// fmt.Printf("%#+ lalu %#v\n\n", product, products)
+}
+
 func task__() {
 	// var inputItemName string
-	var inputMenu, inputPrice, inputStock, inputID, inputCount, inputMoney int
+	var inputMenu int
 
 	menuLen := len(menus)
 	
@@ -94,68 +161,13 @@ func task__() {
 		fmt.Scanln(&inputMenu)
 
 		if inputMenu == 1 {
-			fmt.Printf("Masukan Nama Barang: ")
-			// fmt.Scanln(&inputItemName)
-			inputItemName, _ := reader.ReadString('\n')
-			inputItemName = strings.TrimSpace(inputItemName)
-				
-			fmt.Printf("Masukan Harga Barang: ")
-			fmt.Scanln(&inputPrice)
-			
-			fmt.Printf("Masukan Stock Barang: ")
-			fmt.Scanln(&inputStock)
-	
-			products = append(products, Product{
-				ID: 	len(products) + 1,
-				Name: 	inputItemName,
-				Price: 	inputPrice,
-				Stock: 	inputStock,
-			})
-	
-			fmt.Printf("\n[SYSTEM]: Barang berhasil ditambahkan ke gudang.\n")
+			addProduct()
 		} else if productLen != 0 && inputMenu == 2 {
 			if getListProduct("Daftar Stock Gudang") {
 				fmt.Printf("\nTotal Jenis Barang: %d\n", len(products))
 			}
 		} else if productLen != 0 && inputMenu == 3 {
-			if !getListProduct("Daftar Produk") {
-				continue
-			}
-			fmt.Printf("\nMasukan ID Barang yang mau dibeli: ")
-			fmt.Scanln(&inputID)
-	
-			productIndex := slices.IndexFunc(products, func(p Product) bool {
-				return p.ID == inputID
-			})
-			if productIndex == -1 {
-				fmt.Print("[SYSTEM]: Barang dengan ID tersebut tidak ditemukan.\n")
-				continue
-			}
-	
-			product := &products[productIndex]
-			
-			fmt.Printf("Masukan jumlah Barang yang mau dibeli: ")
-			fmt.Scanln(&inputCount)
-	
-			price := inputCount * product.Price
-			
-			fmt.Printf("[SYSTEM]: Total Harga: Rp %d\n", price)
-			fmt.Printf("Masukan uang anda: ")
-			fmt.Scanln(&inputMoney)
-	
-			changeMoney := inputMoney - price
-	
-			if changeMoney < 0 {
-				fmt.Printf("[SYSTEM]: Uang anda kurang %d !!!\n", changeMoney * -1)
-				continue
-			}
-	
-			product.Stock -= inputCount
-	
-			fmt.Printf("\n[SYSTEM]: Transaksi berhasil!\n")
-			fmt.Printf("[SYSTEM]: Kembalian: %d\n", changeMoney)
-			fmt.Printf("[SYSTEM]: Stok %v sekarang: %d pcs\n", product.Name, product.Stock)
-			// fmt.Printf("%#+ lalu %#v\n\n", product, products)
+			buyProduct()
 		} else if (productLen != 0 && inputMenu == 4) || inputMenu == 2 {
 			if loopCount == 0 {
 				fmt.Printf("\n[SYSTEM]: 	Sedih... :(\n		Kamu bahkan belum melakukan aksi apapun :(\n\n")
