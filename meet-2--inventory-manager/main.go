@@ -80,11 +80,12 @@ func task__() {
 	menuLen := len(menus)
 	
 	for loopCount := 0; loopCount >= 0; loopCount++ {
-		title(loopCount)
-
+		
 		if loopCount != 0 {
 			time.Sleep(2 * time.Second)	
 		}
+
+		title(loopCount)
 
 		fmt.Printf("\nPilih Menu [1-%d]: ", menuLen)
 		fmt.Scanln(&inputMenu)
